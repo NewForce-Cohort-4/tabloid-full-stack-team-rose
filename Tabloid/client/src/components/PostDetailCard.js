@@ -3,17 +3,17 @@ import { Card, CardImg, CardBody } from "reactstrap";
 import { Link } from "react-router-dom";
 
 const Post = ({ post }) => {
-
+  console.log(post);
 
   return (
       <Card className="m-4">
- 
-       
-          <p>
+          <h1>
             <strong>{post.title}</strong>
-          </p>
-
- 
+          </h1>
+          { if (post.imageLocation != null) {
+              return post.imageLocation
+          } }
+          }
 
       </Card>
   );
