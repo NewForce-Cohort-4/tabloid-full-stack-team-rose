@@ -19,8 +19,12 @@ export function UserProfileProvider(props) {
   }, []);
 
   const login = (email, pw) => {
+    console.log(email, pw);
     return firebase.auth().signInWithEmailAndPassword(email, pw)
-      .then((signInResponse) => getUserProfile(signInResponse.user.uid))
+      .then((signInResponse) => {
+        console.log(signInResponse)
+        return getUserProfile(signInResponse.user.uid)
+      })
       .then((userProfile) => {
         sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
         setIsLoggedIn(true);
