@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
-    
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase

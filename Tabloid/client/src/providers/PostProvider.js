@@ -20,9 +20,10 @@ export const PostProvider = (props) => {
         }).then(res => res.json())
         .then(setPosts));
   
-    const getUserById = id => {
+    const getPostsByUserId = () => {
+        let entireUserProfile = JSON.parse(sessionStorage.getItem("userProfile"))
         return getToken().then((token) => 
-        fetch(`/api/post/currentUser=${id}`, {
+        fetch(`/api/post/currentUser=${entireUserProfile.id}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`
@@ -33,7 +34,7 @@ export const PostProvider = (props) => {
 
     return (
       <PostContext.Provider value={{
-           posts, getAllPosts, getUserById }}>
+           posts, getAllPosts, getPostsByUserId }}>
         {props.children}
       </PostContext.Provider>
     );
