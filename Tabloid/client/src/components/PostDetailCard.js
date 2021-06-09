@@ -8,13 +8,12 @@ const Post = ({ post }) => {
   return (
       <Card className="m-4">
           <h1>
-            <strong>{post.title}</strong>
+            <strong>Title: {post.title}</strong>
           </h1>
-          { if (post.imageLocation != null) {
-              return post.imageLocation
-          } }
-          }
-
+          <p>Header image: {post.imageLocation}</p>
+          <p>Content: {post.content}</p>
+          <p>Publication date: {post.createDateTime}</p>
+          <p>Display name: {post.userProfile.displayName}</p>
       </Card>
   );
 };
