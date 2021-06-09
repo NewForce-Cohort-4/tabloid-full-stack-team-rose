@@ -1,19 +1,28 @@
-import React, { useState } from "react";
-import { Spinner } from "reactstrap";
-import firebase from "firebase/app";
-import "firebase/auth";
+import React, { useState, useContext } from "react";
+import { UserProfileContext } from "./UserProfileProvider";
 
 export const PostContext = React.createContext();
 
 export const PostProvider = (props) => {
   const [posts, setPosts] = useState([]);
   const [ searchTerms, setSearchTerms ] = useState("");
+  const { getToken } = useContext(UserProfileContext);
 
   const getAllPosts = () => {
     return fetch("/api/post/GetWithComments")
       .then((res) => res.json())
       .then(setPosts);
   };
+
+  const getAllPosts = () =>
+  getToken().then((token) =>  
+   fetch("/api/post/", {
+     method: "GET",
+     headers: {
+       Authorization: `Bearer ${token}`
+     }
+   }).then(res => res.json())
+   .then(setPosts));
 
   const getPostsBySearch = () => {
     return fetch(`/api/post/search?q=${searchTerms}&sortDesc=false`)
@@ -26,8 +35,16 @@ export const PostProvider = (props) => {
   };
 
   return (
-    <PostContext.Provider value={{ posts, getPost }}>
+    <PostContext.Provider value={{ posts, getPost, getAllPosts }}>
       {props.children}
     </PostContext.Provider>
   );
 };
+    
+   
+
+  
+
+  
+
+

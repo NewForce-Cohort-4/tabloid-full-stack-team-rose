@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+using Tabloid.Controllers;
 using Tabloid.Models;
 using Tabloid.Utils;
 
@@ -10,7 +12,10 @@ namespace Tabloid.Repositories
     public class PostRepository : BaseRepository, IPostRepository
     {
         public PostRepository(IConfiguration configuration) : base(configuration) { }
-        public Post GetById(int id)
+        // public Post GetById(int id){}
+
+
+        public List<Post> GetAll()
         {
             using (var conn = Connection)
             {
@@ -18,41 +23,52 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT p.Id AS PostId, p.Title, p.Content, p.ImageLocation, 
-                            p.CreateDateTime, p.PublishDateTime, p.IsApproved,
-                            c.Id AS CategoryId,
-                            up.Id AS UserProfileId
-                        FROM Post p
-                        LEFT JOIN Category c ON p.CategoryId = c.id
-                        LEFT JOIN UserProfile up ON p.UserProfileId = up.Id
-                        WHERE p.Id = @id";
+       
+                    SELECT p.id AS Id, p.Title, p.CategoryId AS PostCategoryId,
+                    p.PublishDateTime, p.UserProfileId AS PostUserProfileId,
+                    
+                    up.FirstName,
 
-                    DbUtils.AddParameter(cmd, "@Id", id);
+                    c.Name
+                    FROM Post p
+                    LEFT JOIN Category c on p.CategoryId = c.Id
+                    LEFT JOIN UserProfile up ON p.UserProfileId = up.id
+                    ORDER BY PublishDateTime";
 
                     var reader = cmd.ExecuteReader();
 
-                    Post post = null;
-                    if (reader.Read())
+                    var posts = new List<Post>();
+                    while (reader.Read())
                     {
-                        post = new Post()
+                        posts.Add(new Post()
                         {
-                            Id = id,
+                            Id = DbUtils.GetInt(reader, "Id"),
                             Title = DbUtils.GetString(reader, "Title"),
-                            Content = DbUtils.GetString(reader, "Content"),
-                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
-                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
                             PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
-                            IsApproved = DbUtils.GetBool(reader, "IsApproved"),
-                            CategoryId = DbUtils.GetInt(reader, "CategoryId"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                        };
+                            UserProfileId = DbUtils.GetInt(reader, "PostUserProfileId"),
+                            UserProfile = new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "PostUserProfileId"),
+                                FirstName = DbUtils.GetString(reader, "FirstName"),
+                            },
+                            Category = new Category()
+                            {
+                                Id = DbUtils.GetInt(reader, "PostCategoryId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
+                        }); ;
                     }
 
                     reader.Close();
 
-                    return post;
+                    return posts;
                 }
             }
+        }
+
+        public Post GetById(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
