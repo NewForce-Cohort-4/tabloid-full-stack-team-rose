@@ -1,19 +1,26 @@
-import React, { useContext, useEffect } from "react";
-import Post from "./Post";
+import React, { useContext, useEffect, useState } from "react";
 import { PostContext } from "../providers/PostProvider";
+import Post  from  "./Post"
+//import { useHistory } from 'react-router-dom';
 
-export default function PostList() {
-  const { posts, refreshPosts } = useContext(PostContext);
+const PostList = () => {
+  const { posts, getAllPosts} = useContext(PostContext);
 
   useEffect(() => {
-    refreshPosts();
+    getAllPosts();
   }, []);
 
   return (
-    <section>
-      {posts.map(p =>
-        <Post key={p.id} post={p}/>
-      )}
-    </section>
+    <div className="container">
+      <div className="row justify-content-center">
+        <div className="cards-column">
+          {posts.map((post) => (
+            <Post key={post.id} post={post} />
+          ))}
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default PostList;

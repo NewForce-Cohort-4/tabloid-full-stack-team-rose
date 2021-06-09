@@ -1,43 +1,29 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserProfileContext } from "./UserProfileProvider";
 
-export const PostContext = createContext();
+export const PostContext = React.createContext();
 
-export function PostProvider(props) {
-  const apiUrl = "/api/post";
-  const { getToken } = useContext(UserProfileContext);
-
-  const [posts, setPosts] = useState([]);
-
-  const refreshPosts = () =>
-    getToken().then((token) =>
-      fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then(resp => resp.json())
+export const PostProvider = (props) => {
+    const { getToken } = useContext(UserProfileContext);
+   
+    const [posts, setPosts] = useState([]);
+    //search state
+    //const [ searchTerms, setSearchTerms ] = useState("")
+  
+    const getAllPosts = () =>
+       getToken().then((token) =>  
+        fetch("/api/post/", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }).then(res => res.json())
         .then(setPosts));
-
-  const addPost = (Post) =>
-    getToken().then((token) =>
-      fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(posts)
-      }).then(resp => {
-        if (resp.ok) {
-          return resp.json();
-        }
-        throw new Error("Unauthorized");
-      }));
-
-  return (
-    <PostContext.Provider value={{ posts, refreshPosts, addPost }}>
-      {props.children}
-    </PostContext.Provider>
-  );
-}
+  
+    return (
+      <PostContext.Provider value={{
+           posts, getAllPosts }}>
+        {props.children}
+      </PostContext.Provider>
+    );
+  };

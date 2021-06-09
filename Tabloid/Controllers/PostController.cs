@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Tabloid.Models;
+using Microsoft.AspNetCore.Mvc;
 using Tabloid.Repositories;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Tabloid.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tabloid.Controllers
 {
@@ -17,16 +14,10 @@ namespace Tabloid.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-
-        private readonly IUserProfileRepository _userProfileRepository;
         private readonly IPostRepository _postRepository;
-
-        public PostController(
-            IPostRepository postRepository,
-            IUserProfileRepository userProfileRepository)
+        public PostController(IPostRepository postRepository)
         {
             _postRepository = postRepository;
-            _userProfileRepository = userProfileRepository;
         }
 
         [HttpGet]
@@ -38,32 +29,32 @@ namespace Tabloid.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var quote = _postRepository.GetbyId(id);
-            if (quote != null)
+            var post = _postRepository.GetById(id);
+            if (post == null)
             {
-                NotFound();
+                return NotFound();
             }
-            return Ok(quote);
+            return Ok(post);
         }
 
-        [HttpPost]
-        public IActionResult Post(Post post)
-        {
-            var currentUserProfile = GetCurrentUserProfile();
-            if (currentUserProfile.UserType.Name != "admin")
-            {
-                return Unauthorized();
-            }
-            post.UserProfileId = currentUserProfile.Id;
-            _postRepository.Add(post);
-            return CreatedAtAction(nameof(Get), new { id = post.Id }, post);
-        }
+        // [HttpPost]
+        // public IActionResult Post(Post post)
+        // {
+        //     var currentUserProfile = GetCurrentUserProfile();
+        //     if (currentUserProfile.UserType.Name != "admin")
+        //     {
+        //         return Unauthorized();
+        //     }
+        //     post.UserProfileId = currentUserProfile.Id;
+        //     _postRepository.Add(post);
+        //     return CreatedAtAction(nameof(Get), new { id = post.Id }, post);
+        // }
 
-        private UserProfile GetCurrentUserProfile()
-        {
-            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
-        }
+        // private UserProfile GetCurrentUserProfile()
+        // {
+        //     var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //     return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        // }
 
     }
 }

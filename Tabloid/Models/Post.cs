@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.ComponentModel.DataAnnotations;
-using Tabloid.Models;
 
 namespace Tabloid.Models
 {
@@ -25,10 +26,13 @@ namespace Tabloid.Models
 
         [Required]
         public int CategoryId { get; set; }
-
+        public string Url { get; set; }
+        
         [Required]
         public int UserProfileId { get; set; }
 
         public UserProfile UserProfile { get; set; }
+
+        public Category Category { get; set; }
     }
 }

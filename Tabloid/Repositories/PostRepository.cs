@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-
+using Tabloid.Controllers;
 using Tabloid.Models;
-using Tabloid.Repositories;
 using Tabloid.Utils;
 
 namespace Tabloid.Repositories
@@ -12,30 +13,8 @@ namespace Tabloid.Repositories
     {
         public PostRepository(IConfiguration configuration) : base(configuration) { }
 
-        //public List<Post> GetAll()
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = PostQuery;
 
-        //            var posts = new List<Post>();
-
-        //            var reader = cmd.ExecuteReader();
-        //            while (reader.Read())
-        //            {
-        //                posts.Add(NewPost(reader));
-        //            }
-        //            reader.Close();
-
-        //            return posts;
-        //        }
-        //    }
-        //}
-
-        public List<Post> GetAllPostsByUser(int userProfileId)
+        public List<Post> GetAll()
         {
             using (var conn = Connection)
             {
@@ -43,29 +22,39 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                       SELECT p.Id, p.Title, p.Content, 
-                              p.ImageLocation AS HeaderImage,
-                              p.CreateDateTime, p.PublishDateTime, p.IsApproved,
-                              p.CategoryId, p.UserProfileId,
-                              c.[Name] AS CategoryName,
-                              u.FirstName, u.LastName, u.DisplayName, 
-                              u.Email, u.CreateDateTime, u.ImageLocation AS AvatarImage,
-                              u.UserTypeId, 
-                              ut.[Name] AS UserTypeName
-                         FROM Post p
-                              LEFT JOIN Category c ON p.CategoryId = c.id
-                              LEFT JOIN UserProfile u ON p.UserProfileId = u.id
-                              LEFT JOIN UserType ut ON u.UserTypeId = ut.id
-                        WHERE p.UserProfileId = @userProfileId";
+                    SELECT p.id AS Id, p.Title, p.CategoryId AS PostCategoryId,
+                    p.PublishDateTime, p.UserProfileId AS PostUserProfileId,
+                    
+                    up.FirstName,
 
-                    cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
+                    c.Name
+                    FROM Post p
+                    LEFT JOIN Category c on p.CategoryId = c.Id
+                    LEFT JOIN UserProfile up ON p.UserProfileId = up.id
+                    ORDER BY PublishDateTime";
+
                     var reader = cmd.ExecuteReader();
 
                     var posts = new List<Post>();
-
                     while (reader.Read())
                     {
-                        posts.Add(NewPostFromReader(reader));
+                        posts.Add(new Post()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Title = DbUtils.GetString(reader, "Title"),
+                            PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
+                            UserProfileId = DbUtils.GetInt(reader, "PostUserProfileId"),
+                            UserProfile = new UserProfile()
+                            {
+                                Id = DbUtils.GetInt(reader, "PostUserProfileId"),
+                                FirstName = DbUtils.GetString(reader, "FirstName"),
+                            },
+                            Category = new Category()
+                            {
+                                Id = DbUtils.GetInt(reader, "PostCategoryId"),
+                                Name = DbUtils.GetString(reader, "Name")
+                            }
+                        }); ;
                     }
 
                     reader.Close();
@@ -75,83 +64,9 @@ namespace Tabloid.Repositories
             }
         }
 
-        //public object GetbyId(int id)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = PostQuery + " WHERE p.id = @Id";
-        //            DbUtils.AddParameter(cmd, "@Id", id);
-
-        //            Post post = null;
-
-        //            var reader = cmd.ExecuteReader();
-        //            if (reader.Read())
-        //            {
-        //                post = NewPost(reader);
-        //            }
-        //            reader.Close();
-
-        //            return post;
-        //        }
-        //    }
-        //}
-
-        //public void Add(Post post)
-        //{
-        //    using (var conn = Connection)
-        //    {
-        //        conn.Open();
-        //        using (var cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"INSERT INTO Post (Text, UserProfileId)
-        //                                OUTPUT INSERTED.ID
-        //                                VALUES (@Text, @UserProfileId)";
-        //            DbUtils.AddParameter(cmd, "@Text", post.Text);
-        //            DbUtils.AddParameter(cmd, "@UserProfileId", post.UserProfileId);
-
-        //            post.Id = (int)cmd.ExecuteScalar();
-        //        }
-        //    }
-        //}
-
-        private string PostQuery
+        public Post GetById(int id)
         {
-            get
-            {
-                return @"SELECT p.Id, p.Text, p.UserProfileId,
-                                up.FirebaseUserId, up.Name AS UserProfileName, up.Email, up.UserTypeId,
-                                ut.Name AS UserTypeName
-                           FROM Post p
-                                LEFT JOIN UserProfile up on p.UserProfileId = up.Id
-                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id";
-            }
+            throw new NotImplementedException();
         }
-
-        //private Post NewPost(SqlDataReader reader)
-        //{
-        //    return new Post()
-        //    {
-        //        Id = DbUtils.GetInt(reader, "Id"),
-        //        Text = DbUtils.GetString(reader, "Text"),
-        //        UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-        //        UserProfile = new UserProfile()
-        //        {
-        //            Id = DbUtils.GetInt(reader, "UserProfileId"),
-        //            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
-        //            FirstName = DbUtils.GetString(reader, "UserProfileName"),
-        //            Email = DbUtils.GetString(reader, "Email"),
-        //            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
-        //            UserType = new UserType()
-        //            {
-        //                Id = DbUtils.GetInt(reader, "UserTypeId"),
-        //                Name = DbUtils.GetString(reader, "UserTypeName"),
-        //            }
-        //        }
-        //    };
-        //}
-
     }
 }
