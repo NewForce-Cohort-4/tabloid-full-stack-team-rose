@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Tabloid.Repositories;
 using Tabloid.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
@@ -25,6 +26,7 @@ namespace Tabloid.Controllers
         {
             return Ok(_postRepository.GetAll());
         }
+ 
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -37,24 +39,20 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
-        // [HttpPost]
-        // public IActionResult Post(Post post)
-        // {
-        //     var currentUserProfile = GetCurrentUserProfile();
-        //     if (currentUserProfile.UserType.Name != "admin")
-        //     {
-        //         return Unauthorized();
-        //     }
-        //     post.UserProfileId = currentUserProfile.Id;
-        //     _postRepository.Add(post);
-        //     return CreatedAtAction(nameof(Get), new { id = post.Id }, post);
-        // }
+        [HttpGet("currentUser={id}")]
+        public IActionResult AllPostsByUser(int id)
+        {
+            var posts = _postRepository.GetAllPostsByUser(id);
+            return Ok(posts);
+        }
 
-        // private UserProfile GetCurrentUserProfile()
-        // {
-        //     var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //     return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
-        // }
+        private int GetCurrentUserProfileId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.Parse(id);
+        }
+
+
 
     }
 }

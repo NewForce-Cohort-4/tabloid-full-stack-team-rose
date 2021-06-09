@@ -79,7 +79,6 @@ namespace Tabloid.Utils
             {
                 return null;
             }
-
             return reader.GetDateTime(ordinal);
         }
 
