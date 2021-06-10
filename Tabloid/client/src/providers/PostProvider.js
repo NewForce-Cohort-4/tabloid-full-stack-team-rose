@@ -9,13 +9,6 @@ export const PostProvider = (props) => {
   const [posts, setPosts] = useState([]);
   const [ searchTerms, setSearchTerms ] = useState("");
   const { getToken } = useContext(UserProfileContext);
-  // const getToken = () => firebase.auth().currentUser.getIdToken();
-
-  // const getAllPosts = () => {
-  //   return fetch("/api/post/GetWithComments")
-  //     .then((res) => res.json())
-  //     .then(setPosts);
-  // };
 
   const getAllPosts = () =>
   getToken().then((token) =>  
@@ -26,6 +19,20 @@ export const PostProvider = (props) => {
      }
    }).then(res => res.json())
    .then(setPosts));
+
+   // This function stores the userProfile object from sessionStorage is stored in a variable
+   // and a fetch call is made to the api passing in the current user id
+   const getPostsByUserId = () => {
+    let entireUserProfile = JSON.parse(sessionStorage.getItem("userProfile"))
+    return getToken().then((token) => 
+    fetch(`/api/post/currentUser=${entireUserProfile.id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).then(res => res.json())
+    .then(setPosts));
+  }
 
   const getPostsBySearch = () => {
     return fetch(`/api/post/search?q=${searchTerms}&sortDesc=false`)
@@ -44,16 +51,10 @@ export const PostProvider = (props) => {
   }
 
   return (
-    <PostContext.Provider value={{ posts, getPost, getAllPosts }}>
+    <PostContext.Provider value={{ posts, getPost, getAllPosts, getPostsBySearch, getPostsByUserId }}>
       {props.children}
     </PostContext.Provider>
   );
 };
     
    
-
-  
-
-  
-
-
