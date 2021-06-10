@@ -8,11 +8,12 @@ import { PostProvider } from "./providers/PostProvider";
 function App() {
   return (
     <Router>
+      
       <UserProfileProvider>
       <PostProvider>
         <Header />
         <ApplicationViews />
-        </PostProvider>
+      </PostProvider>
       </UserProfileProvider>
     </Router>
   );
