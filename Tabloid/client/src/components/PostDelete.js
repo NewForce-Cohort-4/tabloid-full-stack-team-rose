@@ -25,6 +25,9 @@ const PostDelete = () => {
     <div className="container">
       <p>Are you sure you want to delete {post.title}?</p>
       <button onClick={handleDelete}>Confirm Delete</button>
+      <button onClick={() => {
+        history.push("/post")
+      }}>Cancel</button>
     </div>
   );
 };
