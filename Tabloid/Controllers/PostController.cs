@@ -37,5 +37,12 @@ namespace Tabloid.Controllers
             }
             return Ok(post);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _postRepository.Delete(id);
+            return NoContent();
+        }
     }
 }
