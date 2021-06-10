@@ -17,7 +17,7 @@ const PostDelete = () => {
   const handleDelete = () => {
     deletePost(post.id)
       .then(() => {
-        history.push("/posts")
+        history.push("/post")
       })
   }
 
