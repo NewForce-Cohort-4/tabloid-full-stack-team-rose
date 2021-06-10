@@ -4,7 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tabloid.Models;
 
-namespace Tabloid.Repositories
+// namespace Tabloid.Repositories
+// {
+//     public interface IPostRepository
+//     {
+namespace Tabloid.Controllers
 {
     public interface IPostRepository
     {

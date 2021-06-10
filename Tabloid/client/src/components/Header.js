@@ -40,6 +40,7 @@ export default function Header() {
               </NavItem>
             }
           </Nav>
+
           <Nav navbar>
             {isLoggedIn &&
               <>
