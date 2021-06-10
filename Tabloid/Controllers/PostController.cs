@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Tabloid.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
@@ -35,6 +35,13 @@ namespace Tabloid.Controllers
                 return NotFound();
             }
             return Ok(post);
+        }
+
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            _postRepository.Add(post);
+            return CreatedAtAction("Get", new { id = post.Id }, post);
         }
     }
 }

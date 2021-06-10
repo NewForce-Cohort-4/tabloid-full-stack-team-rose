@@ -64,6 +64,28 @@ namespace Tabloid.Repositories
             }
         }
 
+        public void Add(Post post)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Post (Title, Content, ImageLocation, p.CategoryId AS PostCategoryId)
+                        OUTPUT INSERTED.ID
+                        VALUES (@Title, @Content, @ImageLocaiton, @PostCategoryId)";
+
+                    DbUtils.AddParameter(cmd, "@Title", post.Title);
+                    DbUtils.AddParameter(cmd, "@Caption", post.Content);
+                    DbUtils.AddParameter(cmd, "@ImageUrl", post.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@PostCategoryId", post.Category);
+
+                    post.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
         public Post GetById(int id)
         {
             throw new NotImplementedException();
