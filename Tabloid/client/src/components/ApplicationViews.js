@@ -34,10 +34,11 @@ export default function ApplicationViews() {
           {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
       
-        <Route path="/post">
+        <Route exact path="/post">
           <PostList />
         </Route>
-
+        
+        { /* MyPost component is rendered */ }
         <Route path="/post/currentUser">
           <MyPost />
         </Route>

@@ -6,6 +6,8 @@ import Post  from  "./Post"
 const MyPost = () => {
   const { posts, getPostsByUserId} = useContext(PostContext);
 
+  // When MyPost is rendered
+  // The functions getPostsByUserId within useEffect is called
   useEffect(() => {
     getPostsByUserId();
   }, []);

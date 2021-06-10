@@ -20,8 +20,11 @@ export const PostProvider = (props) => {
    }).then(res => res.json())
    .then(setPosts));
 
+   // This function stores the userProfile object from sessionStorage is stored in a variable
+   // and a fetch call is made to the api passing in the current user id
    const getPostsByUserId = () => {
     let entireUserProfile = JSON.parse(sessionStorage.getItem("userProfile"))
+    debugger
     return getToken().then((token) => 
     fetch(`/api/post/currentUser=${entireUserProfile.id}`, {
       method: "GET",

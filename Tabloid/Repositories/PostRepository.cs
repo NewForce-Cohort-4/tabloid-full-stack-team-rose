@@ -66,8 +66,10 @@ namespace Tabloid.Repositories
             }
         }
 
+
         public List<Post> GetAllPostsByUser(int userProfileId)
         {
+            // this method goes into the DB and pulls out the values of the posts made by the user
             using (var conn = Connection)
             {
                 conn.Open();
@@ -92,10 +94,12 @@ namespace Tabloid.Repositories
                     cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
                     var reader = cmd.ExecuteReader();
 
+                    // storing those value in a new list of type post
                     var posts = new List<Post>();
 
                     while (reader.Read())
                     {
+
                         posts.Add(NewPostFromReader(reader));
                     }
 

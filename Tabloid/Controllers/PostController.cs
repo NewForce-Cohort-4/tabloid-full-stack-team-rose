@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
@@ -40,9 +40,11 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
+        // That is is passed here and then this controller method is invoked
         [HttpGet("currentUser={id}")]
         public IActionResult AllPostsByUser(int id)
         {
+            // GetAllPostsByUser method is called on post repository
             var posts = _postRepository.GetAllPostsByUser(id);
             return Ok(posts);
         }
