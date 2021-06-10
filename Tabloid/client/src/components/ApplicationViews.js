@@ -6,7 +6,11 @@ import Register from "./Register";
 import Hello from "./Hello";
 import PostDetails from"./PostDetails";
 import PostList from "./PostList";
+<<<<<<< HEAD
 import PostDelete from "./PostDelete"
+=======
+import MyPost from "./MyPost";
+>>>>>>> main
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -16,6 +20,10 @@ export default function ApplicationViews() {
       <Switch>
         <Route path="/" exact>
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/" exact>
+          {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
@@ -30,8 +38,13 @@ export default function ApplicationViews() {
           {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
       
-        <Route path="/post">
+        <Route exact path="/post">
           <PostList />
+        </Route>
+        
+        { /* MyPost component is rendered */ }
+        <Route path="/post/currentUser">
+          <MyPost />
         </Route>
 
         <Route path="/delete/:id">

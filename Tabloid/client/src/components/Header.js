@@ -29,6 +29,12 @@ export default function Header() {
                 <NavLink tag={RRNavLink} to="/">Home</NavLink>
               </NavItem>
             }
+            { /* When the link My Posts is clicked Applications views is rendered */ }
+            {isLoggedIn &&
+              <NavItem>
+                <NavLink tag={RRNavLink} to="/post/currentUser">My Posts</NavLink>
+              </NavItem>
+            }
             {isLoggedIn &&
               <NavItem>
                 <NavLink tag={RRNavLink} to="/post">All Posts</NavLink>
