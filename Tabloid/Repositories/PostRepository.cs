@@ -106,42 +106,42 @@ namespace Tabloid.Repositories
             }
         }
 
-        // private Post NewPostFromReader(SqlDataReader reader)
-        // {
-        //     // there is a DbUtils.GetNullableDateTime available for PublishDateTime that errored
-        //     return new Post()
-        //     {
-        //         Id = reader.GetInt32(reader.GetOrdinal("Id")),
-        //         Title = reader.GetString(reader.GetOrdinal("Title")),
-        //         Content = reader.GetString(reader.GetOrdinal("Content")),
-        //         ImageLocation = DbUtils.GetNullableString(reader, "HeaderImage"),
-        //         CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
-        //         PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
-        //         CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-        //         Category = new Category()
-        //         {
-        //             Id = reader.GetInt32(reader.GetOrdinal("CategoryId")),
-        //             Name = reader.GetString(reader.GetOrdinal("CategoryName"))
-        //         },
-        //         UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-        //         UserProfile = new UserProfile()
-        //         {
-        //             Id = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
-        //             FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-        //             LastName = reader.GetString(reader.GetOrdinal("LastName")),
-        //             DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
-        //             Email = reader.GetString(reader.GetOrdinal("Email")),
-        //             CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
-        //             ImageLocation = DbUtils.GetNullableString(reader, "AvatarImage"),
-        //             UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
-        //             UserType = new UserType()
-        //             {
-        //                 Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
-        //                 Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
-        //             }
-        //         }
-        //     };
-        // }
+        public Post NewPostFromReader(SqlDataReader reader)
+        {
+            // there is a DbUtils.GetNullableDateTime available for PublishDateTime that errored
+            return new Post()
+            {
+                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                Title = reader.GetString(reader.GetOrdinal("Title")),
+                Content = reader.GetString(reader.GetOrdinal("Content")),
+                ImageLocation = DbUtils.GetNullableString(reader, "HeaderImage"),
+                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
+                CategoryId = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                Category = new Category()
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("CategoryId")),
+                    Name = reader.GetString(reader.GetOrdinal("CategoryName"))
+                },
+                UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                UserProfile = new UserProfile()
+                {
+                    Id = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                    DisplayName = reader.GetString(reader.GetOrdinal("DisplayName")),
+                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                    CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                    ImageLocation = DbUtils.GetNullableString(reader, "AvatarImage"),
+                    UserTypeId = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                    UserType = new UserType()
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("UserTypeId")),
+                        Name = reader.GetString(reader.GetOrdinal("UserTypeName"))
+                    }
+                }
+            };
+        }
 
         public Post GetById(int id)
         {
