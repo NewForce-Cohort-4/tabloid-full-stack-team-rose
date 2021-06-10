@@ -6,11 +6,8 @@ import Register from "./Register";
 import Hello from "./Hello";
 import PostDetails from"./PostDetails";
 import PostList from "./PostList";
-<<<<<<< HEAD
 import PostDelete from "./PostDelete"
-=======
 import MyPost from "./MyPost";
->>>>>>> main
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
