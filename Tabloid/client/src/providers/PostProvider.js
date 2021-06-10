@@ -24,7 +24,6 @@ export const PostProvider = (props) => {
    // and a fetch call is made to the api passing in the current user id
    const getPostsByUserId = () => {
     let entireUserProfile = JSON.parse(sessionStorage.getItem("userProfile"))
-    debugger
     return getToken().then((token) => 
     fetch(`/api/post/currentUser=${entireUserProfile.id}`, {
       method: "GET",
