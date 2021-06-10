@@ -30,7 +30,7 @@ export default function ApplicationViews() {
           <Register />
         </Route>
 
-        <Route path="/posts/:id">
+        <Route path="/posts/:id(\d+)">
           {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
       

@@ -14,7 +14,7 @@ namespace Tabloid.Controllers
     {
         List<Post> GetAll();
         Post GetById(int id);
-
+        void Update(Post post);
         List<Post> GetAllPostsByUser(int userProfileId);
 
     }
