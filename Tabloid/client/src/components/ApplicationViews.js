@@ -6,6 +6,7 @@ import Register from "./Register";
 import Hello from "./Hello";
 import PostDetails from"./PostDetails";
 import PostList from "./PostList";
+import PostDelete from "./PostDelete"
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -31,6 +32,10 @@ export default function ApplicationViews() {
       
         <Route path="/post">
           <PostList />
+        </Route>
+
+        <Route path="/delete/:id">
+          <PostDelete />
         </Route>
 
       </Switch>

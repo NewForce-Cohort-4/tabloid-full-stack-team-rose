@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { UserProfileContext } from "./UserProfileProvider";
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import { useHistory } from 'react-router-dom';
 
 export const PostContext = React.createContext();
 
@@ -9,6 +10,7 @@ export const PostProvider = (props) => {
   const [posts, setPosts] = useState([]);
   const [ searchTerms, setSearchTerms ] = useState("");
   const { getToken } = useContext(UserProfileContext);
+  const history = useHistory();
   // const getToken = () => firebase.auth().currentUser.getIdToken();
 
   // const getAllPosts = () => {
@@ -43,8 +45,14 @@ export const PostProvider = (props) => {
      }).then((res) => res.json()))
   }
 
+  const deletePost = postId => {
+    return fetch(`api/delete/${postId}`, {
+      method: "DELETE"
+    })
+  }
+
   return (
-    <PostContext.Provider value={{ posts, getPost, getAllPosts }}>
+    <PostContext.Provider value={{ posts, getPost, getAllPosts, deletePost }}>
       {props.children}
     </PostContext.Provider>
   );

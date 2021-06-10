@@ -1,9 +1,11 @@
 import React from "react";
 import { Card, CardImg, CardBody } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { PostProvider } from "../providers/PostProvider";
 
 const Post = ({ post }) => {
   console.log(post);
+  const history = useHistory();
 
   return (
       <Card className="m-4">
@@ -14,6 +16,9 @@ const Post = ({ post }) => {
           <p>Content: {post.content}</p>
           <p>Publication date: {post.createDateTime}</p>
           <p>Display name: {post.userProfile.displayName}</p>
+          <button onClick={() => {
+            history.push(`/delete/${post.id}`)
+          }}>Delete</button>
       </Card>
   );
 };
