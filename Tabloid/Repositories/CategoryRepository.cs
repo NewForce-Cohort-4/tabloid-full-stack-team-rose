@@ -52,7 +52,6 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = "DELETE Category WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
-
                     cmd.ExecuteNonQuery();
                 }
             }
