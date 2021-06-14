@@ -52,13 +52,15 @@ export default function ApplicationViews() {
           <PostDelete />
         </Route>
 
-        </PostProvider>
-
+        
         <CategoryProvider>
         <Route path="/posts/add">
         {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
       </Route>
       </CategoryProvider>
+
+        </PostProvider>
+
 
       </Switch>
     </main>

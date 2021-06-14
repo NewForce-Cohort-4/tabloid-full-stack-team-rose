@@ -61,8 +61,10 @@ const PostForm = () => {
           userProfileId: +userProfileId,
           dateCreated
         };
-        console.log(post)
-        addPost(post)
+        addPost(post).then((p) => {
+          // Navigate the user back to the home route
+          history.push("/post");
+        });
     };
 
     return (
