@@ -11,3 +11,5 @@ namespace Tabloid.Repositories
         List<Category> GetAll();
     }
 }
+    
+
