@@ -12,6 +12,7 @@ import PostDelete from "./PostDelete"
 import MyPost from "./MyPost";
 import CategoryList from "./category/CategoryList"
 import PostForm from "./PostForm";
+import CategoryForm from "./category/CategoryForm"
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -60,6 +61,10 @@ export default function ApplicationViews() {
         
           <Route path="/posts/add">
             {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
+          </Route>
+
+          <Route path="/category/add">
+            {isLoggedIn ? <CategoryForm /> : <Redirect to="/login" />}
           </Route>
         </CategoryProvider>
 
