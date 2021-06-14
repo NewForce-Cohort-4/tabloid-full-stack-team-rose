@@ -25,9 +25,6 @@ namespace Tabloid.Models
         public bool IsApproved { get; set; }
         [Required]
         public int CategoryId { get; set; }
-        
-        [Required]
-        public string Title { get; set; }
 
         [Required]
         public DateTime PublishDateTime { get; set; }

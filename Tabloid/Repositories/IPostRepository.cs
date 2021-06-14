@@ -17,6 +17,6 @@ namespace Tabloid.Repositories
         void Delete(int id);
 
         List<Post> GetAllPostsByUser(int userProfileId);
-
+        void Add(Post post);
     }
 }
