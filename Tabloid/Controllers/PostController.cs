@@ -40,6 +40,12 @@ namespace Tabloid.Controllers
             return Ok(post);
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _postRepository.Delete(id);
+            return NoContent();
+        }
         // That is is passed here and then this controller method is invoked
         [HttpGet("currentUser={id}")]
         public IActionResult AllPostsByUser(int id)

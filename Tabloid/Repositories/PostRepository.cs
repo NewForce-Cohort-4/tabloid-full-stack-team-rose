@@ -206,6 +206,7 @@ namespace Tabloid.Repositories
 
 
         public void Update(Post post)
+        public void Delete(int id)
         {
             using (var conn = Connection)
             {
@@ -234,6 +235,8 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@UserProfileId", post.UserProfileId);
                     DbUtils.AddParameter(cmd, "@Id", post.Id);
 
+                    cmd.CommandText = "DELETE FROM Post WHERE Id = @Id";
+                    DbUtils.AddParameter(cmd, "@id", id);
                     cmd.ExecuteNonQuery();
                 }
             }

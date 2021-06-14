@@ -6,6 +6,7 @@ import Register from "./Register";
 import Hello from "./Hello";
 import PostDetails from"./PostDetails";
 import PostList from "./PostList";
+import PostDelete from "./PostDelete"
 import MyPost from "./MyPost";
 
 export default function ApplicationViews() {
@@ -41,6 +42,10 @@ export default function ApplicationViews() {
         { /* MyPost component is rendered */ }
         <Route path="/post/currentUser">
           <MyPost />
+        </Route>
+
+        <Route path="/delete/:id">
+          <PostDelete />
         </Route>
 
       </Switch>
