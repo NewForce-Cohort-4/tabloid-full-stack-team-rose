@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-<<<<<<< HEAD
-=======
 using Tabloid.Controllers;
->>>>>>> main
 using Tabloid.Models;
 using Tabloid.Utils;
 
@@ -14,10 +11,7 @@ namespace Tabloid.Repositories
 {
     public class CategoryRepository : BaseRepository, ICategoryRepository
     {
-<<<<<<< HEAD
-=======
 
->>>>>>> main
         public CategoryRepository(IConfiguration configuration) : base(configuration) { }
 
         public List<Category> GetAll()
@@ -28,7 +22,6 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-<<<<<<< HEAD
                         SELECT Id, Name
                         FROM Category";
 
@@ -65,9 +58,8 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@Name", category.Name);
 
                     category.Id = (int)cmd.ExecuteScalar();
-=======
-                    SELECT id, Name 
-                    from Category";
+                    // SELECT id, Name 
+                    // from Category";
 
                     var reader = cmd.ExecuteReader();
 
@@ -84,7 +76,6 @@ namespace Tabloid.Repositories
                     reader.Close();
 
                     return categories;
->>>>>>> main
                 }
             }
         }
