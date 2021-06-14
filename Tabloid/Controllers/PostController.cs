@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
-    
+   
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
@@ -75,5 +75,12 @@ namespace Tabloid.Controllers
 
 
 
+
+        [HttpPost]
+        public IActionResult Post(Post post)
+        {
+            _postRepository.Add(post);
+            return CreatedAtAction("Get", new { id = post.Id }, post);
+        }
     }
 }

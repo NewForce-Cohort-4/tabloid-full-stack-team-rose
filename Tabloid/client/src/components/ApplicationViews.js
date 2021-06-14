@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
+import { CategoryProvider } from "../providers/CategoryProvider";
+import { PostProvider } from "../providers/PostProvider";
 import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
@@ -8,6 +10,7 @@ import PostDetails from"./PostDetails";
 import PostList from "./PostList";
 import PostDelete from "./PostDelete"
 import MyPost from "./MyPost";
+import PostForm from "./PostForm";
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -31,11 +34,16 @@ export default function ApplicationViews() {
           <Register />
         </Route>
 
+<<<<<<< HEAD
         <Route path="/posts/:id(\d+)">
+=======
+        <Route exact path="/posts/:id(\d+)">
+>>>>>>> main
           {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
         </Route>
       
-        <Route exact path="/post">
+      <PostProvider>
+        <Route path="/post">
           <PostList />
         </Route>
         
@@ -47,6 +55,16 @@ export default function ApplicationViews() {
         <Route path="/delete/:id">
           <PostDelete />
         </Route>
+
+        
+        <CategoryProvider>
+        <Route path="/posts/add">
+        {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
+      </Route>
+      </CategoryProvider>
+
+        </PostProvider>
+
 
       </Switch>
     </main>

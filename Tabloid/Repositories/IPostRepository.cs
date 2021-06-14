@@ -8,7 +8,7 @@ using Tabloid.Models;
 // {
 //     public interface IPostRepository
 //     {
-namespace Tabloid.Controllers
+namespace Tabloid.Repositories
 {
     public interface IPostRepository
     {
@@ -18,5 +18,6 @@ namespace Tabloid.Controllers
 
         List<Post> GetAllPostsByUser(int userProfileId);
         void Update(Post post);
+        void Add(Post post);
     }
 }
