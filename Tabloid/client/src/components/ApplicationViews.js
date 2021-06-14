@@ -8,6 +8,7 @@ import PostDetails from"./PostDetails";
 import PostList from "./PostList";
 import PostDelete from "./PostDelete"
 import MyPost from "./MyPost";
+import CategoryList from "./Category/CategoryList"
 
 export default function ApplicationViews() {
   const { isLoggedIn } = useContext(UserProfileContext);
@@ -46,6 +47,10 @@ export default function ApplicationViews() {
 
         <Route path="/delete/:id">
           <PostDelete />
+        </Route>
+
+        <Route path="/categories" exact>
+          {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>
 
       </Switch>
