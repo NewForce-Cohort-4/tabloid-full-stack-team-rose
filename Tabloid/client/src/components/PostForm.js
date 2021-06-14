@@ -14,13 +14,13 @@ import {
   } from "reactstrap";
 
 const PostForm = () => {
-    const { addPost, getPostById } = useContext(PostContext)
-    const [userProfileId, setUserProfileId] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [categoryId, setCategoryId] = useState("");
-    const [ dateCreated ] = useState("");
+    const { addPost, getPostsByUserId, updatePost } = useContext(PostContext)
+    // const [userProfileId, setUserProfileId] = useState("");
+    // const [imageUrl, setImageUrl] = useState("");
+    // const [title, setTitle] = useState("");
+    // const [content, setContent] = useState("");
+    // const [categoryId, setCategoryId] = useState("");
+    // const [ dateCreated ] = useState("");
     const { category, getAllCategories } = useContext(CategoryContext)
     
     /*
@@ -39,10 +39,11 @@ const PostForm = () => {
     // Get categories.
     useEffect(() => {
         getAllCategories().then(() => {
+          console.log(postId)
           if (postId){
-            getPostById(postId)
+            getPostsByUserId(postId)
             .then(post => {
-            console.log(category)
+            console.log(post)
                 setPost(post)
                 setIsLoading(false)
             })
@@ -52,20 +53,63 @@ const PostForm = () => {
         })
       }, [])
 
-      const submit = (e) => {
-        e.preventDefault()
-        const post = {
-          title,
-          content,
-          categoryId,
-          userProfileId: +userProfileId,
-          dateCreated
-        };
-        addPost(post).then((p) => {
-          // Navigate the user back to the home route
-          history.push("/post");
-        });
-    };
+    //   const submit = (e) => {
+    //     e.preventDefault()
+    //     const post = {
+    //       title,
+    //       content,
+    //       categoryId,
+    //       userProfileId: +userProfileId,
+    //       dateCreated
+    //     };
+    //     addPost(post).then((p) => {
+    //       // Navigate the user back to the home route
+    //       history.push("/post");
+    //     });
+    // };
+
+    const handleControlledInputChange = (event) => {
+      //When changing a state object or array,
+      //always create a copy make changes, and then set state.
+      const newPost = { ...post }
+      //animal is an object with properties.
+      //set the property to the new value
+      newPost[event.target.name] = event.target.value
+      //update state
+      setPost(newPost)
+    }
+
+
+
+    const handleSavePost = () => {
+      if (parseInt(post.categoryId) === 0) {
+          window.alert("Please select a location")
+      } else {
+        //disable the button - no extra clicks
+        setIsLoading(true);
+        if (postId){
+          //PUT - update
+          updatePost({
+              id: post.id,
+              title: post.title,
+              content: post.content,
+              categoryId: parseInt(post.categoryId)
+          })
+          //pushes a new entry onto the history stack
+          .then(() => history.push(`/post/detail/${post.id}`))
+        }else {
+          //POST - add
+          addPost({
+              title: post.title,
+              content: post.content,
+              categoryId: parseInt(post.categoryId)
+          })
+          //pushes a new entry onto the history stack
+          .then(() => history.push("/post"))
+        }
+      }
+    }
+
 
     return (
         <div className="container pt-4">
@@ -73,13 +117,13 @@ const PostForm = () => {
             <Card className="col-sm-12 col-lg-6">
               <CardBody>
                 <Form>
-                  <FormGroup>
+                  {/* <FormGroup>
                     <Label for="userId">User Id (For Now...)</Label>
                     <Input
                       id="userId"
                       onChange={(e) => setUserProfileId(e.target.value)}
                     />
-                  </FormGroup>
+                  </FormGroup> */}
                   {/* <FormGroup>
                     <Label for="imageUrl">Gif URL</Label>
                     <Input
@@ -89,18 +133,19 @@ const PostForm = () => {
                   </FormGroup> */}
                   <FormGroup>
                     <Label for="title">Title</Label>
-                    <Input id="title" onChange={(e) => setTitle(e.target.value)} />
+                    <Input id="title" onChange={handleControlledInputChange} defaultValue={post.title}/>
                   </FormGroup>
                   <FormGroup>
                     <Label for="caption">Content</Label>
                     <Input
                       id="content"
-                      onChange={(e) => setContent(e.target.value)}
+                      onChange={handleControlledInputChange}
+                      defaultValue={post.content}
                     />
                   </FormGroup>
                   <FormGroup>
                     <Label for="category">Category</Label>
-                    <select value={post.categoryId} name="categoryId" onChange={e => setCategoryId(e.target.value)}
+                    <select value={post.categoryId} name="categoryId" onChange={handleControlledInputChange}
                   >
                    
                     <option value="0">Select a Category</option>
@@ -111,9 +156,16 @@ const PostForm = () => {
                     </select>
                   </FormGroup>
                 </Form>
-                <Button color="info" disabled={isLoading} onClick={submit}>
+                <button className="btn btn-primary"
+                  disabled={isLoading}
+                  onClick={event => {
+                    event.preventDefault() // Prevent browser from submitting the form and refreshing the page
+                    handleSavePost()
+                  }}>
+                {postId ? <>Save Post</> : <>Add Post</>}</button>
+                {/* <Button color="info" disabled={isLoading} onClick={submit}>
                   SUBMIT
-                </Button>
+                </Button> */}
               </CardBody>
             </Card>
           </div>

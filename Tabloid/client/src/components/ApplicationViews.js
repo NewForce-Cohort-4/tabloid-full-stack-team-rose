@@ -37,7 +37,7 @@ export default function ApplicationViews() {
         
       
       <PostProvider>
-        <Route path="/post">
+        <Route exact path="/post">
           <PostList />
         </Route>
         
@@ -57,6 +57,11 @@ export default function ApplicationViews() {
         <Route path="/posts/add">
         {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
         </Route>
+        
+        <Route exact path="/post/edit/:postId">
+          <PostForm />
+        </Route>
+
         </CategoryProvider>
         </PostProvider>
 

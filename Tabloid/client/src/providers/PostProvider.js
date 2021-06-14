@@ -69,7 +69,7 @@ export const PostProvider = (props) => {
     }))
   }
 
-  const refreshPosts = (postId) => {
+  const updatePost = (postId) => {
     return getToken().then((token) =>
       fetch(`api/post/${postId}`, {
         method: "PUT",
@@ -92,7 +92,7 @@ export const PostProvider = (props) => {
    )};
 
   return (
-    <PostContext.Provider value={{ posts, getPost, getAllPosts, deletePost, getPostsBySearch, getPostsByUserId, addPost, refreshPosts }}>
+    <PostContext.Provider value={{ posts, getPost, getAllPosts, deletePost, getPostsBySearch, getPostsByUserId, addPost, updatePost }}>
       {props.children}
     </PostContext.Provider>
   );
