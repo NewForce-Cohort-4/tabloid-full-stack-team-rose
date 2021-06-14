@@ -10,6 +10,7 @@ import PostDetails from"./PostDetails";
 import PostList from "./PostList";
 import PostDelete from "./PostDelete"
 import MyPost from "./MyPost";
+import CategoryList from "./category/CategoryList"
 import PostForm from "./PostForm";
 
 export default function ApplicationViews() {
@@ -51,15 +52,18 @@ export default function ApplicationViews() {
         <Route path="/delete/:id">
           <PostDelete />
         </Route>
-
-        
         <CategoryProvider>
-        <Route path="/posts/add">
-        {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
-      </Route>
-      </CategoryProvider>
+          <Route path="/categories" exact>
+            {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
+          </Route>
+        
+        
+          <Route path="/posts/add">
+            {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
+          </Route>
+        </CategoryProvider>
 
-        </PostProvider>
+      </PostProvider>
 
 
       </Switch>

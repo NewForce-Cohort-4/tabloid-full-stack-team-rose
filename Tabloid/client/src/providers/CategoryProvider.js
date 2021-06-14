@@ -1,12 +1,16 @@
 import React, { useState, useContext } from "react";
 import { UserProfileContext } from "./UserProfileProvider";
+import "firebase/auth";
 
 export const CategoryContext = React.createContext();
 
 export const CategoryProvider = (props) => {
+
+    const apiUrl = "/api/quote";
     const { getToken } = useContext(UserProfileContext);
-   
     const [category, setCategory] = useState([]);
+    //search state
+    //const [ searchTerms, setSearchTerms ] = useState("")
   
     const getAllCategories = () =>
        getToken().then((token) =>  
@@ -36,4 +40,9 @@ export const CategoryProvider = (props) => {
         {props.children}
       </CategoryContext.Provider>
     );
-  };
+}
+   
+  
+
+
+ 

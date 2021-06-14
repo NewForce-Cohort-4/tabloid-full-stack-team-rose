@@ -22,24 +22,23 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    SELECT id, Name 
-                    from Category";
+                        SELECT Id, Name
+                        FROM Category";
 
                     var reader = cmd.ExecuteReader();
 
-                    var categories = new List<Category>();
+                    var category = new List<Category>();
                     while (reader.Read())
                     {
-                        categories.Add(new Category()
+                        category.Add(new Category()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "Name"),
-                        }); ;
+                        });
                     }
-
                     reader.Close();
 
-                    return categories;
+                    return category;
                 }
             }
         }

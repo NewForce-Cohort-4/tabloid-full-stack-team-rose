@@ -12,3 +12,5 @@ namespace Tabloid.Repositories
         void Add(Category category);
     }
 }
+    
+
