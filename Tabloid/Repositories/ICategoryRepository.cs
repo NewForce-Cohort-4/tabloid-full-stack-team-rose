@@ -9,6 +9,7 @@ namespace Tabloid.Repositories
     public interface ICategoryRepository
     {
         List<Category> GetAll();
+        void Delete(int id);
     }
 }
     
