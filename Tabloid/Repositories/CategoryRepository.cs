@@ -51,7 +51,7 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Post (Name)
+                        INSERT INTO Category (Name)
                         OUTPUT INSERTED.ID
                         VALUES (@Name)";
 
