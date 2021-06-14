@@ -10,7 +10,7 @@ import PostDetails from"./PostDetails";
 import PostList from "./PostList";
 import PostDelete from "./PostDelete"
 import MyPost from "./MyPost";
-import CategoryList from "./Category/CategoryList"
+import CategoryList from "./category/CategoryList"
 import PostForm from "./PostForm";
 
 export default function ApplicationViews() {
