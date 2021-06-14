@@ -72,14 +72,18 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Post (Title, Content, ImageLocation, p.CategoryId AS PostCategoryId)
+                        INSERT INTO Post (Title, Content, ImageLocation, CategoryId, UserProfileId, CreateDateTime, PublishDateTime, IsApproved)
                         OUTPUT INSERTED.ID
-                        VALUES (@Title, @Content, @ImageLocaiton, @PostCategoryId)";
+                        VALUES (@Title, @Content, @ImageLocation, @CategoryId, @UserProfileId, @CreateDateTime, @PublishDateTime, @IsApproved)";
 
                     DbUtils.AddParameter(cmd, "@Title", post.Title);
-                    DbUtils.AddParameter(cmd, "@Caption", post.Content);
-                    DbUtils.AddParameter(cmd, "@ImageUrl", post.ImageLocation);
-                    DbUtils.AddParameter(cmd, "@PostCategoryId", post.Category);
+                    DbUtils.AddParameter(cmd, "@Content", post.Content);
+                    DbUtils.AddParameter(cmd, "@ImageLocation", post.ImageLocation);
+                    DbUtils.AddParameter(cmd, "@CategoryId", post.CategoryId);
+                    DbUtils.AddParameter(cmd, "@UserProfileId", post.UserProfileId);
+                    DbUtils.AddParameter(cmd, "@CreateDateTime", DateTime.Now);
+                    DbUtils.AddParameter(cmd, "@PublishDateTime", DateTime.Now);
+                    DbUtils.AddParameter(cmd, "@IsApproved", post.IsApproved);
 
                     post.Id = (int)cmd.ExecuteScalar();
                 }

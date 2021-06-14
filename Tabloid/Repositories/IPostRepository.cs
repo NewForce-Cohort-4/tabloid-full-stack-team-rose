@@ -6,7 +6,7 @@ using System.Collections.Generic;
 // {
 //     public interface IPostRepository
 //     {
-namespace Tabloid.Controllers
+namespace Tabloid.Repositories
 {
     public interface IPostRepository
     {

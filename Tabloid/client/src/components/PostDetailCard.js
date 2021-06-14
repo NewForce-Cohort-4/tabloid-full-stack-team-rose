@@ -13,7 +13,7 @@ const Post = ({ post }) => {
           <p>Header image: {post.imageLocation}</p>
           <p>Content: {post.content}</p>
           <p>Publication date: {post.createDateTime}</p>
-          <p>Display name: {post.userProfile.displayName}</p>
+          {/* <p>Display name: {post.userProfile.displayName}</p> */}
       </Card>
   );
 };

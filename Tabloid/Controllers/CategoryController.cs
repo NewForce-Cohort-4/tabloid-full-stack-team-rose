@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Tabloid.Controllers
 {
-    
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

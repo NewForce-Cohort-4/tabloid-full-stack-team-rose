@@ -19,7 +19,8 @@ const PostForm = () => {
     const [imageUrl, setImageUrl] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [categories, setCategories] = useState("");
+    const [categoryId, setCategoryId] = useState("");
+    const [ dateCreated ] = useState("");
     const { category, getAllCategories } = useContext(CategoryContext)
     
     /*
@@ -51,28 +52,16 @@ const PostForm = () => {
         })
       }, [])
 
-          //when field changes, update state. This causes a re-render and updates the view.
-    //Controlled component
-    const handleControlledInputChange = (event) => {
-        //When changing a state object or array,
-        //always create a copy make changes, and then set state.
-        const newPost = { ...post }
-        //post is an object with properties.
-        //set the property to the new value
-        newPost[event.target.name] = event.target.value
-        //update state
-        setPost(newPost)
-      }
-
       const submit = (e) => {
+        e.preventDefault()
         const post = {
           title,
           content,
-          categories,
+          categoryId,
           userProfileId: +userProfileId,
-          dateCreated: "2021-06-02T00:00:00",
+          dateCreated
         };
-
+        console.log(post)
         addPost(post)
     };
 
@@ -82,13 +71,13 @@ const PostForm = () => {
             <Card className="col-sm-12 col-lg-6">
               <CardBody>
                 <Form>
-                  {/* <FormGroup>
+                  <FormGroup>
                     <Label for="userId">User Id (For Now...)</Label>
                     <Input
                       id="userId"
                       onChange={(e) => setUserProfileId(e.target.value)}
                     />
-                  </FormGroup> */}
+                  </FormGroup>
                   {/* <FormGroup>
                     <Label for="imageUrl">Gif URL</Label>
                     <Input
@@ -109,11 +98,9 @@ const PostForm = () => {
                   </FormGroup>
                   <FormGroup>
                     <Label for="category">Category</Label>
-                    <select value={post.categoryId}>
-                    <Input
-                      id="category"
-                      onChange={handleControlledInputChange} 
-                    />
+                    <select value={post.categoryId} name="categoryId" onChange={e => setCategoryId(e.target.value)}
+       >
+                   
                     <option value="0">Select a Category</option>
                     {category.map(c => (
                     <option key={c.id} value={c.id}>

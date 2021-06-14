@@ -17,20 +17,12 @@ namespace Tabloid.Models
 
         public DateTime CreateDateTime { get; set; }
 
-        public string DateCreated { get; set; }
-
         public bool IsApproved { get; set; }
 
         public int CategoryId { get; set; }
 
         [Required]
         public string Title { get; set; }
-
-        [Required]
-        public string ImageLocation { get; set; }
-
-        [Required]
-        public string Content { get; set; }
 
         [Required]
         public DateTime PublishDateTime { get; set; }
