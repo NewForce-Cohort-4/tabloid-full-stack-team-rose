@@ -52,18 +52,18 @@ export default function ApplicationViews() {
         <Route path="/delete/:id">
           <PostDelete />
         </Route>
-
-        <Route path="/categories" exact>
-          {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
-        </Route>
-        
         <CategoryProvider>
-        <Route path="/posts/add">
-        {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
-      </Route>
-      </CategoryProvider>
+          <Route path="/categories" exact>
+            {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
+          </Route>
+        
+        
+          <Route path="/posts/add">
+            {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
+          </Route>
+        </CategoryProvider>
 
-        </PostProvider>
+      </PostProvider>
 
 
       </Switch>

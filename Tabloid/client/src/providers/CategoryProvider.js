@@ -9,7 +9,7 @@ export const CategoryProvider = (props) => {
     const apiUrl = "/api/quote";
     const { getToken } = useContext(UserProfileContext);
     const [category, setCategory] = useState([]);
-
+    
 
     const getAllCategories = () =>
         getToken().then((token) =>

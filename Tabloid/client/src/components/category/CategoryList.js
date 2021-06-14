@@ -11,16 +11,8 @@ const CategoryList = () => {
     getAllCategories();
   }, []);
 
-  // function handleClick() {
-  //   history.push("/category/create");
-  // }
-
   return (
     <div className="container">
-      {/* <div>
-      {/* <button className="btn btn-primary"
-        onClick={handleClick}>Create Category</button>
-      </div> */}
       <div className="row justify-content-center">
         <div className="cards-column">
           {category.sort((a, b) => a.name.localeCompare(b.name)).map((thisCategory) => (
