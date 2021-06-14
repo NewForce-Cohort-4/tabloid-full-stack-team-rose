@@ -7,8 +7,6 @@ export const CategoryProvider = (props) => {
     const { getToken } = useContext(UserProfileContext);
    
     const [category, setCategory] = useState([]);
-    //search state
-    //const [ searchTerms, setSearchTerms ] = useState("")
   
     const getAllCategories = () =>
        getToken().then((token) =>  
@@ -18,11 +16,23 @@ export const CategoryProvider = (props) => {
             Authorization: `Bearer ${token}`
           }
         }).then(res => res.json())
-        .then(setCategory));  
+        .then(setCategory));
+        
+        const addCategory = (category) => {
+          return getToken().then((token) => 
+            fetch("/api/category", {
+             method: "POST",
+             headers: {
+               Authorization: `Bearer ${token}`,
+               "Content-Type": "application/json",
+             },
+             body: JSON.stringify(category),
+           })
+          )};
   
     return (
       <CategoryContext.Provider value={{
-           category, getAllCategories }}>
+           category, getAllCategories, addCategory }}>
         {props.children}
       </CategoryContext.Provider>
     );
