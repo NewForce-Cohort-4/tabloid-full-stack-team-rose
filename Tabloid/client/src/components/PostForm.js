@@ -101,7 +101,7 @@ const PostForm = () => {
                   <FormGroup>
                     <Label for="category">Category</Label>
                     <select value={post.categoryId} name="categoryId" onChange={e => setCategoryId(e.target.value)}
-       >
+                  >
                    
                     <option value="0">Select a Category</option>
                     {category.map(c => (

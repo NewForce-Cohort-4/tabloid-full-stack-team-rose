@@ -34,19 +34,16 @@ export default function ApplicationViews() {
           <Register />
         </Route>
 
-<<<<<<< HEAD
-        <Route path="/posts/:id(\d+)">
-=======
-        <Route exact path="/posts/:id(\d+)">
->>>>>>> main
-          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
-        </Route>
+        
       
       <PostProvider>
         <Route path="/post">
           <PostList />
         </Route>
         
+        <Route exact path="/posts/:id(\d+)">
+          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
+        </Route>
         { /* MyPost component is rendered */ }
         <Route path="/post/currentUser">
           <MyPost />
@@ -55,15 +52,15 @@ export default function ApplicationViews() {
         <Route path="/delete/:id">
           <PostDelete />
         </Route>
-
         
         <CategoryProvider>
         <Route path="/posts/add">
         {isLoggedIn ? <PostForm /> : <Redirect to="/login" />}
-      </Route>
-      </CategoryProvider>
-
+        </Route>
+        </CategoryProvider>
         </PostProvider>
+
+        
 
 
       </Switch>
