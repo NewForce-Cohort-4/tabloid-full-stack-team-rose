@@ -1,6 +1,8 @@
-﻿using Tabloid.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Tabloid.Models;
 
 // namespace Tabloid.Repositories
 // {
@@ -12,6 +14,9 @@ namespace Tabloid.Repositories
     {
         List<Post> GetAll();
         Post GetById(int id);
-        void Add(Post post);
+        void Delete(int id);
+
+        List<Post> GetAllPostsByUser(int userProfileId);
+
     }
 }

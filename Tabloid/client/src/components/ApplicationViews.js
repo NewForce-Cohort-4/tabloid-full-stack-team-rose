@@ -8,6 +8,8 @@ import Register from "./Register";
 import Hello from "./Hello";
 import PostDetails from"./PostDetails";
 import PostList from "./PostList";
+import PostDelete from "./PostDelete"
+import MyPost from "./MyPost";
 import PostForm from "./PostForm";
 
 export default function ApplicationViews() {
@@ -18,6 +20,10 @@ export default function ApplicationViews() {
       <Switch>
         <Route path="/" exact>
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/" exact>
+          {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
@@ -36,6 +42,16 @@ export default function ApplicationViews() {
         <Route path="/post">
           <PostList />
         </Route>
+        
+        { /* MyPost component is rendered */ }
+        <Route path="/post/currentUser">
+          <MyPost />
+        </Route>
+
+        <Route path="/delete/:id">
+          <PostDelete />
+        </Route>
+
         </PostProvider>
 
         <CategoryProvider>

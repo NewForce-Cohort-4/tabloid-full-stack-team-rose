@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Tabloid.Repositories;
 using Tabloid.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
@@ -26,6 +27,7 @@ namespace Tabloid.Controllers
         {
             return Ok(_postRepository.GetAll());
         }
+ 
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -37,6 +39,30 @@ namespace Tabloid.Controllers
             }
             return Ok(post);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _postRepository.Delete(id);
+            return NoContent();
+        }
+        // That is is passed here and then this controller method is invoked
+        [HttpGet("currentUser={id}")]
+        public IActionResult AllPostsByUser(int id)
+        {
+            // GetAllPostsByUser method is called on post repository
+            var posts = _postRepository.GetAllPostsByUser(id);
+            return Ok(posts);
+        }
+
+        private int GetCurrentUserProfileId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.Parse(id);
+        }
+
+
+
 
         [HttpPost]
         public IActionResult Post(Post post)
