@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,6 +9,16 @@ using Tabloid.Models;
 using Tabloid.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+=======
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Tabloid.Repositories;
+using Tabloid.Models;
+using Microsoft.AspNetCore.Authorization;
+>>>>>>> main
 
 namespace Tabloid.Controllers
 {
@@ -22,12 +33,16 @@ namespace Tabloid.Controllers
             _categoryRepository = categoryRepository;
         }
 
+<<<<<<< HEAD
         // GET: api/<CategoryController>
+=======
+>>>>>>> main
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_categoryRepository.GetAll());
         }
+<<<<<<< HEAD
 
         // GET api/<CategoryController>/5
         [HttpGet("{id}")]
@@ -54,5 +69,7 @@ namespace Tabloid.Controllers
         public void Delete(int id)
         {
         }
+=======
+>>>>>>> main
     }
 }
