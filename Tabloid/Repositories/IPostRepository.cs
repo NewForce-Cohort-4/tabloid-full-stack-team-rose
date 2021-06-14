@@ -14,6 +14,7 @@ namespace Tabloid.Controllers
     {
         List<Post> GetAll();
         Post GetById(int id);
+        void Delete(int id);
 
         List<Post> GetAllPostsByUser(int userProfileId);
 
