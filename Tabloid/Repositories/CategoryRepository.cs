@@ -42,5 +42,24 @@ namespace Tabloid.Repositories
                 }
             }
         }
+
+        public void Add(Category category)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Category (Name)
+                        OUTPUT INSERTED.ID
+                        VALUES (@Name)";
+
+                    DbUtils.AddParameter(cmd, "@Name", category.Name);
+
+                    category.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
     }
 }

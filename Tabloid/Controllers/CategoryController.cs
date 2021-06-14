@@ -1,11 +1,12 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tabloid.Models;
+using Microsoft.AspNetCore.Mvc;
 using Tabloid.Repositories;
+using Tabloid.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
@@ -44,6 +45,13 @@ namespace Tabloid.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpPost]
+        public IActionResult Category(Category category)
+        {
+            _categoryRepository.Add(category);
+            return CreatedAtAction("Get", new { id = category.Id }, category);
         }
     }
 }
