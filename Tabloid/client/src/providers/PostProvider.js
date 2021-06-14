@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { UserProfileContext } from "./UserProfileProvider";
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/auth";
 import { useHistory } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ export const PostProvider = (props) => {
 
   const getAllPosts = () =>
   getToken().then((token) =>  
-   fetch("/api/post/", {
+   fetch("/api/post", {
      method: "GET",
      headers: {
        Authorization: `Bearer ${token}`
@@ -69,8 +69,20 @@ export const PostProvider = (props) => {
     }))
   }
 
+  const addPost = (post) => {
+   return getToken().then((token) => 
+     fetch("/api/post", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(post),
+    })
+   )};
+
   return (
-    <PostContext.Provider value={{ posts, getPost, getAllPosts, deletePost, getPostsBySearch, getPostsByUserId }}>
+    <PostContext.Provider value={{ posts, getPost, getAllPosts, deletePost, getPostsBySearch, getPostsByUserId, addPost }}>
       {props.children}
     </PostContext.Provider>
   );

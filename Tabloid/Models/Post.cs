@@ -19,13 +19,16 @@ namespace Tabloid.Models
         public string ImageLocation { get; set; }
         [Required]
         public DateTime CreateDateTime { get; set; }
-        
-        public DateTime PublishDateTime { get; set; }
-        [Required]
+
+        public string DateCreated { get; set; }
+
         public bool IsApproved { get; set; }
         [Required]
         public int CategoryId { get; set; }
-        
+
+        [Required]
+        public DateTime PublishDateTime { get; set; }
+
         [Required]
         public int UserProfileId { get; set; }
 
