@@ -69,14 +69,16 @@ export const PostProvider = (props) => {
     }))
   }
 
-  const updatePost = (postId) => {
+  const updatePost = (post) => {
     return getToken().then((token) =>
-      fetch(`api/post/${postId}`, {
+      fetch(`api/post/${post.id}`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then(resp => resp.json())
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+      },
+          body: JSON.stringify(post),
+      })
         .then(setPosts))};
 
   const addPost = (post) => {

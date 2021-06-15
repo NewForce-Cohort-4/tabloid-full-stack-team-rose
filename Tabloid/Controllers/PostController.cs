@@ -64,7 +64,7 @@ namespace Tabloid.Controllers
             }
 
             _postRepository.Update(post);
-            return NoContent();
+            return Ok(post);
         }
 
         private int GetCurrentUserProfileId()

@@ -12,9 +12,10 @@ import {
     Input,
     Button,
   } from "reactstrap";
+  
 
 const PostForm = () => {
-    const { addPost, getPostsByUserId, updatePost } = useContext(PostContext)
+    const {  addPost, getPost, updatePost } = useContext(PostContext)
     // const [userProfileId, setUserProfileId] = useState("");
     // const [imageUrl, setImageUrl] = useState("");
     // const [title, setTitle] = useState("");
@@ -30,6 +31,8 @@ const PostForm = () => {
     */
     const [post, setPost] = useState({});
 
+
+
     const history = useHistory();
         //wait for data before button is active
         const [isLoading, setIsLoading] = useState(true);
@@ -41,10 +44,12 @@ const PostForm = () => {
         getAllCategories().then(() => {
           console.log(postId)
           if (postId){
-            getPostsByUserId(postId)
+            getPost(postId)
+            // console.log(postId)
             .then(post => {
-            console.log(post)
+            
                 setPost(post)
+                console.log(post)
                 setIsLoading(false)
             })
           } else {
@@ -74,7 +79,7 @@ const PostForm = () => {
       const newPost = { ...post }
       //animal is an object with properties.
       //set the property to the new value
-      newPost[event.target.name] = event.target.value
+      newPost[event.target.id] = event.target.value
       //update state
       setPost(newPost)
     }
@@ -90,13 +95,18 @@ const PostForm = () => {
         if (postId){
           //PUT - update
           updatePost({
-              id: post.id,
-              title: post.title,
-              content: post.content,
-              categoryId: parseInt(post.categoryId)
+              Id: post.Id,
+              Title: post.Title,
+              Content: post.Content,
+              CreateDateTime: post.CreateDateTime,
+              IsApproved: post.IsApproved,
+              PublishDateTime: post.PublishDateTime,
+              PmageLocation: post.ImageLocation,
+              CategoryId: parseInt(post.CategoryId),
+              UserProfileId: parseInt(post.UserProfileId)
           })
           //pushes a new entry onto the history stack
-          .then(() => history.push(`/post/detail/${post.id}`))
+          .then(() => history.push(`/posts/${post.id}`))
         }else {
           //POST - add
           addPost({
@@ -133,18 +143,18 @@ const PostForm = () => {
                   </FormGroup> */}
                   <FormGroup>
                     <Label for="title">Title</Label>
-                    <Input id="title" onChange={handleControlledInputChange} defaultValue={post.title}/>
+                    <Input id="title" name="Title" onChange={handleControlledInputChange} defaultValue={post.title}/>
                   </FormGroup>
                   <FormGroup>
-                    <Label for="caption">Content</Label>
+                    <Label for="content">Content</Label>
                     <Input
-                      id="content"
+                      id="content" name="Content"
                       onChange={handleControlledInputChange}
                       defaultValue={post.content}
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label for="category">Category</Label>
+                    <Label for="categoryId">Category</Label>
                     <select value={post.categoryId} name="categoryId" onChange={handleControlledInputChange}
                   >
                    
