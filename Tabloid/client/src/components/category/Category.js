@@ -1,10 +1,4 @@
-// export default function Category(category) {
-//     return(
-//       <Card className="m-4">
-//         <p className="text-left px-2">{category.category.name}</p>
-//       </Card>
-//     );
-// }
+
 
 import React, { useContext, useState } from "react";
 import { Card, CardImg, CardBody } from "reactstrap";
@@ -17,19 +11,19 @@ export default function Category(category) {
 
 
   const handleDelete = () => {
-    const r = window.confirm(`Are you sure you want to delete "${category.category.name}"?`)
-    if (r === true) {
-      deleteCategory(category.category.id)
-        .then(() => {
-          history.push("/category")
-        })
+      const r = window.confirm(`Are you sure you want to delete "${category.category.name}"?`)
+      if (r === true) {
+        deleteCategory(category.category.id)
+          .then(() => {
+            history.push("/categories")
+          })
+      }
+      else
+      {
+        history.push("/categories")
+      }
+      
     }
-    else
-    {
-      history.push("/category")
-    }
-
-  }
     return (
       category.category.post.length !== 0 ?
       <Card className="m-4">
