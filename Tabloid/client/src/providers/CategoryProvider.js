@@ -35,7 +35,6 @@ export const CategoryProvider = (props) => {
           )};
 
           const updateCategory = (category) => {
-            debugger
             return getToken().then((token) =>
              fetch(`/api/category/${category.id}`, {
               method: "PUT",
