@@ -33,10 +33,33 @@ export const CategoryProvider = (props) => {
              body: JSON.stringify(category),
            })
           )};
+
+          const updateCategory = (category) => {
+            debugger
+            return getToken().then((token) =>
+             fetch(`/api/category/${category.id}`, {
+              method: "PUT",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(category)
+            }))
+          }
+
+          const getCategoryById = (id) => {
+            return getToken().then((token) => 
+             fetch(`/api/category/${id}`, {
+               method: "GET",
+               headers: {
+                 Authorization: `Bearer ${token}`
+               }
+             }).then((res) => res.json()))
+          }
   
     return (
       <CategoryContext.Provider value={{
-           category, getAllCategories, addCategory }}>
+           category, getAllCategories, addCategory, updateCategory, getCategoryById  }}>
         {props.children}
       </CategoryContext.Provider>
     );

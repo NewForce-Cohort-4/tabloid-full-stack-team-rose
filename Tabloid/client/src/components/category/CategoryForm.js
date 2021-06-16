@@ -5,43 +5,59 @@ import { useHistory, useParams } from "react-router-dom";
 import { Form, FormGroup, Card, CardBody, Label, Input, Button } from "reactstrap";
 
 const CategoryForm = () => {
-    const { addCategory, getAllCategories, getCategoryById } = useContext(CategoryContext)
+    const { addCategory, getAllCategories, updateCategory, getCategoryById } = useContext(CategoryContext)
     const [name, setName] = useState("");
     /*
     With React, we do not target the DOM with `document.querySelector()`. Instead, our return (render) reacts to state or props.
     */
-    const [category, setCategory] = useState({});
+    const [editCategory, setEditCategory] = useState({});
     const history = useHistory();
         //wait for data before button is active
+    const [isLoading, setIsLoading] = useState(true);
+    const {categoryid} = useParams();   
 
-        const [isLoading, setIsLoading] = useState(true);
-
-        const {categoryId} = useParams();   
-
-    useEffect(() => {
-        getAllCategories().then(() => {
-          if (categoryId){
-            getCategoryById(categoryId)
-            .then(category => {
-                setCategory(category)
-                setIsLoading(false)
+        // const handleControlledInputChange = (event) => {
+        //     //When changing a state object or array,
+        //     //always create a copy make changes, and then set state.
+        //     const newCategory = { ...category }
+        //     //category is an object with properties.
+        //     //set the property to the new value
+        //     newCategory[event.target.name] = event.target.value
+        //     //update state
+        //     setCategory(newCategory)
+        //   }
+    
+          const submit = (e) => {
+          setIsLoading(true);
+          if (categoryid){
+            //PUT - update          
+            updateCategory({
+                id: editCategory.id,
+                name: name
             })
-          } else {
-            setIsLoading(false)
+            .then(() => history.push(`/categories`))
+          }else {
+            //POST - add
+            addCategory({
+                name: name
+            })
+            .then(() => history.push("/categories"))
           }
-        })
-      }, [])
+        }
 
-    const submit = (e) => {
-        e.preventDefault()
-        const category = {
-          name
-        };
-        addCategory(category).then((c) => {
-          // Navigate the user back to the home route
-          history.push("/categories");
-        });
-    };
+        useEffect(() => {
+                getCategoryById(categoryid)
+                .then(returnCategory => {
+                    console.log(returnCategory)
+                    setEditCategory(returnCategory)
+                    setIsLoading(false)
+                })
+          }, [])  
+
+        //   useEffect(() => {
+        //     getAllCategories(categoryid).then(setCategory);
+        //   }, []);
+ 
 
     return (
         <div className="container pt-4">
@@ -51,11 +67,14 @@ const CategoryForm = () => {
                 <Form>
                   <FormGroup>
                     <Label for="name">Name</Label>
-                    <Input id="name" onChange={(e) => setName(e.target.value)} />
+                    <Input id="name" onChange={(e) => setName(e.target.value)} placeholder="Category name" defaultValue={editCategory.name} />
                   </FormGroup>
                 </Form>
-                <Button color="info" disabled={isLoading} onClick={submit}>
-                  SUBMIT
+                <Button color="info" disabled={isLoading} onClick={event => {
+            event.preventDefault() // Prevent browser from submitting the form and refreshing the page
+            submit()
+          }}>
+             {categoryid ? <>Save</> : <>Add</>}
                 </Button>
               </CardBody>
             </Card>
