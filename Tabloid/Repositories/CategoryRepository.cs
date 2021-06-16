@@ -22,23 +22,50 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Name
-                        FROM Category";
+                        SELECT c.Id as CategoryId, c.Name, p.Id as PostId, p.Title, p.Content, 
+                              p.ImageLocation,
+                              p.CreateDateTime, p.PublishDateTime, p.IsApproved,
+                              p.CategoryId
+                        FROM Category c
+                        LEFT JOIN Post p ON c.Id = p.CategoryId";
 
                     var reader = cmd.ExecuteReader();
 
-                    var category = new List<Category>();
+                    var categories = new List<Category>();
                     while (reader.Read())
                     {
-                        category.Add(new Category()
+                        var categoryId = DbUtils.GetInt(reader, "CategoryId");
+                        var category = categories.FirstOrDefault(c => c.Id == categoryId);
+
+                        if (category == null)
                         {
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            Name = DbUtils.GetString(reader, "Name"),
-                        });
+                            category = new Category()
+                            {
+                                Id = categoryId,
+                                Name = DbUtils.GetString(reader, "Name"),
+                                Post = new List<Post>()
+                            };
+
+                            categories.Add(category);
+                        }
+                        if (DbUtils.IsNotDbNull(reader, "PostId"))
+                        {
+                            category.Post.Add(new Post()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("PostId")),
+                                Title = reader.GetString(reader.GetOrdinal("Title")),
+                                Content = reader.GetString(reader.GetOrdinal("Content")),
+                                ImageLocation = DbUtils.GetNullableString(reader, "ImageLocation"),
+                                CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime")),
+                                PublishDateTime = DbUtils.GetDateTime(reader, "PublishDateTime"),
+                                CategoryId = categoryId,
+                            });
+                        }
                     }
+
                     reader.Close();
 
-                    return category;
+                    return categories;
                 }
             }
         }
@@ -71,7 +98,7 @@ namespace Tabloid.Repositories
                 {
                     cmd.CommandText = @"
                         UPDATE Category
-                           SET Name = @Name,
+                           SET Name = @Name
                          WHERE Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Name", category.Name);
@@ -90,7 +117,7 @@ namespace Tabloid.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                    SELECT cId AS CategoryId, c.Name
+                    SELECT c.Id AS CategoryId, c.Name
                     FROM Category c
                     WHERE Id = @id";
 
@@ -111,6 +138,20 @@ namespace Tabloid.Repositories
                     reader.Close();
 
                     return category;
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE Category WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

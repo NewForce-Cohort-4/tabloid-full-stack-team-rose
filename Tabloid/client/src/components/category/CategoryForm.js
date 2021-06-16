@@ -76,6 +76,9 @@ const CategoryForm = () => {
           }}>
              {categoryid ? <>Save</> : <>Add</>}
                 </Button>
+                <button color="info" onClick={() => {
+                    history.push(`/categories`)
+                }}>Cancel</button>
               </CardBody>
             </Card>
           </div>
