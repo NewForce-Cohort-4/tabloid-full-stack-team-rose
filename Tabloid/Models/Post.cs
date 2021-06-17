@@ -20,13 +20,11 @@ namespace Tabloid.Models
         [Required]
         public DateTime CreateDateTime { get; set; }
 
-        public string DateCreated { get; set; }
-
+        [Required]
         public bool IsApproved { get; set; }
         [Required]
         public int CategoryId { get; set; }
 
-        [Required]
         public DateTime PublishDateTime { get; set; }
 
         [Required]

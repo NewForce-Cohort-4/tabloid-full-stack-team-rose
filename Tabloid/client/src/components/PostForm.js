@@ -16,12 +16,11 @@ import {
 
 const PostForm = () => {
     const {  addPost, getPost, updatePost } = useContext(PostContext)
-    // const [userProfileId, setUserProfileId] = useState("");
-    // const [imageUrl, setImageUrl] = useState("");
-    // const [title, setTitle] = useState("");
-    // const [content, setContent] = useState("");
-    // const [categoryId, setCategoryId] = useState("");
-    // const [ dateCreated ] = useState("");
+    const [imageUrl, setImageUrl] = useState("");
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [categoryId, setCategoryId] = useState("");
+    const [ getDateTime ] = useState("");
     const { category, getAllCategories } = useContext(CategoryContext)
     
     /*
@@ -58,21 +57,6 @@ const PostForm = () => {
         })
       }, [])
 
-    //   const submit = (e) => {
-    //     e.preventDefault()
-    //     const post = {
-    //       title,
-    //       content,
-    //       categoryId,
-    //       userProfileId: +userProfileId,
-    //       dateCreated
-    //     };
-    //     addPost(post).then((p) => {
-    //       // Navigate the user back to the home route
-    //       history.push("/post");
-    //     });
-    // };
-
     const handleControlledInputChange = (event) => {
       //When changing a state object or array,
       //always create a copy make changes, and then set state.
@@ -84,7 +68,7 @@ const PostForm = () => {
       setPost(newPost)
     }
 
-
+    const userProfileId = JSON.parse(sessionStorage.getItem("userProfile")).id
 
     const handleSavePost = () => {
       if (parseInt(post.categoryId) === 0) {
@@ -110,9 +94,12 @@ const PostForm = () => {
         }else {
           //POST - add
           addPost({
-              title: post.title,
-              content: post.content,
-              categoryId: parseInt(post.categoryId)
+              Title: post.title,
+              Content: post.content,
+              CreateDateTime: post.createDateTime,
+              IsApproved: true,
+              CategoryId: parseInt(post.categoryId),
+              UserProfileId: +userProfileId
           })
           //pushes a new entry onto the history stack
           .then(() => history.push("/post"))
@@ -144,7 +131,7 @@ const PostForm = () => {
                   </FormGroup>
                   <FormGroup>
                     <Label for="categoryId">Category</Label>
-                    <select value={post.categoryId} name="categoryId" onChange={handleControlledInputChange}>
+                    <select value={post.categoryId} id="categoryId" onChange={handleControlledInputChange}>
                       <option value="0">Select a Category</option>
                       {category.map(c => (
                       <option key={c.id} value={c.id}>
