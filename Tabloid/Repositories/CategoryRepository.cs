@@ -70,19 +70,6 @@ namespace Tabloid.Repositories
             }
         }
 
-        public void Delete(int id)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "DELETE Category WHERE Id = @id";
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
         public void Add(Category category)
         {
             using (var conn = Connection)
@@ -98,6 +85,73 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@Name", category.Name);
 
                     category.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Update(Category category)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Category
+                           SET Name = @Name
+                         WHERE Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Name", category.Name);
+                    DbUtils.AddParameter(cmd, "@Id", category.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public Category GetById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    SELECT c.Id AS CategoryId, c.Name
+                    FROM Category c
+                    WHERE Id = @id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    Category category = null;
+                    if (reader.Read())
+                    {
+                        category = new Category()
+                        {
+                            Id = id,
+                            Name = DbUtils.GetString(reader, "Name"),
+                        };
+                    }
+
+                    reader.Close();
+
+                    return category;
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "DELETE Category WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
