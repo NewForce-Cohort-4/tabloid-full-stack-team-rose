@@ -25,13 +25,18 @@ const Post = ({ post }) => {
           } else {
             <button>Not Authorized</button>
           }} */}
-
+        
           {userProfile.id === post.userProfileId ? (
+            <>
               <button onClick={() => {
                 history.push(`/delete/${post.id}`)
               }}>Delete</button>
+              <button onClick={() => {
+                history.push(`/post/edit/${post.id}`)
+              }}>Edit</button>
+            </>
           ) : (
-            <button>Not Authorized</button>
+            <button>Not Authorized</button> 
           )}
       </Card>
   );

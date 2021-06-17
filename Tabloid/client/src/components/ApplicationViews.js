@@ -36,15 +36,16 @@ export default function ApplicationViews() {
           <Register />
         </Route>
 
-        <Route exact path="/posts/:id(\d+)">
-          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
-        </Route>
+        
       
       <PostProvider>
-        <Route path="/post">
+        <Route exact path="/post">
           <PostList />
         </Route>
         
+        <Route exact path="/posts/:id(\d+)">
+          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
+        </Route>
         { /* MyPost component is rendered */ }
         <Route path="/post/currentUser">
           <MyPost />

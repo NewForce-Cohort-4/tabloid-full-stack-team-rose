@@ -12,15 +12,16 @@ import {
     Input,
     Button,
   } from "reactstrap";
+  
 
 const PostForm = () => {
-    const { addPost, getPostById } = useContext(PostContext)
-    const [userProfileId, setUserProfileId] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
-    const [categoryId, setCategoryId] = useState("");
-    const [ dateCreated ] = useState("");
+    const {  addPost, getPost, updatePost } = useContext(PostContext)
+    // const [userProfileId, setUserProfileId] = useState("");
+    // const [imageUrl, setImageUrl] = useState("");
+    // const [title, setTitle] = useState("");
+    // const [content, setContent] = useState("");
+    // const [categoryId, setCategoryId] = useState("");
+    // const [ dateCreated ] = useState("");
     const { category, getAllCategories } = useContext(CategoryContext)
     
     /*
@@ -29,6 +30,8 @@ const PostForm = () => {
     Define the intial state of the form inputs with useState()
     */
     const [post, setPost] = useState({});
+
+
 
     const history = useHistory();
         //wait for data before button is active
@@ -39,11 +42,14 @@ const PostForm = () => {
     // Get categories.
     useEffect(() => {
         getAllCategories().then(() => {
+          console.log(postId)
           if (postId){
-            getPostById(postId)
+            getPost(postId)
+            // console.log(postId)
             .then(post => {
-            console.log(category)
+            
                 setPost(post)
+                console.log(post)
                 setIsLoading(false)
             })
           } else {
@@ -52,20 +58,68 @@ const PostForm = () => {
         })
       }, [])
 
-      const submit = (e) => {
-        e.preventDefault()
-        const post = {
-          title,
-          content,
-          categoryId,
-          userProfileId: +userProfileId,
-          dateCreated
-        };
-        addPost(post).then((p) => {
-          // Navigate the user back to the home route
-          history.push("/post");
-        });
-    };
+    //   const submit = (e) => {
+    //     e.preventDefault()
+    //     const post = {
+    //       title,
+    //       content,
+    //       categoryId,
+    //       userProfileId: +userProfileId,
+    //       dateCreated
+    //     };
+    //     addPost(post).then((p) => {
+    //       // Navigate the user back to the home route
+    //       history.push("/post");
+    //     });
+    // };
+
+    const handleControlledInputChange = (event) => {
+      //When changing a state object or array,
+      //always create a copy make changes, and then set state.
+      const newPost = { ...post }
+      //animal is an object with properties.
+      //set the property to the new value
+      newPost[event.target.id] = event.target.value
+      //update state
+      setPost(newPost)
+    }
+
+
+
+    const handleSavePost = () => {
+      if (parseInt(post.categoryId) === 0) {
+          window.alert("Please select a location")
+      } else {
+        //disable the button - no extra clicks
+        setIsLoading(true);
+        if (postId){
+          //PUT - update
+          updatePost({
+              Id: post.id,
+              Title: post.title,
+              Content: post.content,
+              CreateDateTime: post.createDateTime,
+              IsApproved: post.isApproved,
+              PublishDateTime: post.publishDateTime,
+              ImageLocation: post.imageLocation,
+              CategoryId: parseInt(post.categoryId),
+              UserProfileId: parseInt(post.userProfileId)
+          })
+          //pushes a new entry onto the history stack
+          .then(() => history.push(`/posts/${post.id}`))
+        }else {
+          //POST - add
+          addPost({
+              title: post.title,
+              content: post.content,
+              categoryId: parseInt(post.categoryId)
+          })
+          //pushes a new entry onto the history stack
+          .then(() => history.push("/post"))
+        }
+      }
+    }
+
 
     return (
         <div className="container pt-4">
@@ -82,31 +136,31 @@ const PostForm = () => {
                   </FormGroup> */}
                   <FormGroup>
                     <Label for="title">Title</Label>
-                    <Input id="title" onChange={(e) => setTitle(e.target.value)} />
+                    <Input id="title" name="Title" onChange={handleControlledInputChange} defaultValue={post.title}/>
                   </FormGroup>
                   <FormGroup>
-                    <Label for="caption">Content</Label>
-                    <Input
-                      id="content"
-                      onChange={(e) => setContent(e.target.value)}
-                    />
+                    <Label for="content">Content</Label>
+                    <Input id="content" name="Content" onChange={handleControlledInputChange} defaultValue={post.content}/>
                   </FormGroup>
                   <FormGroup>
-                    <Label for="category">Category</Label>
-                    <select value={post.categoryId} name="categoryId" onChange={e => setCategoryId(e.target.value)}
-       >
-                   
-                    <option value="0">Select a Category</option>
-                    {category.map(c => (
-                    <option key={c.id} value={c.id}>
-                    {c.name}
-                    </option>))}
+                    <Label for="categoryId">Category</Label>
+                    <select value={post.categoryId} name="categoryId" onChange={handleControlledInputChange}>
+                      <option value="0">Select a Category</option>
+                      {category.map(c => (
+                      <option key={c.id} value={c.id}>
+                      {c.name}
+                      </option>))}
                     </select>
                   </FormGroup>
                 </Form>
-                <Button color="info" disabled={isLoading} onClick={submit}>
-                  SUBMIT
-                </Button>
+                <button className="btn btn-primary"
+                  disabled={isLoading}
+                  onClick={event => {
+                    event.preventDefault() // Prevent browser from submitting the form and refreshing the page
+                    handleSavePost()
+                  }}>
+                {postId ? <>Save Post</> : <>Add Post</>}</button>
+                <button onClick={()=>{history.push(`/posts/${postId}`)}}>Cancel</button>
               </CardBody>
             </Card>
           </div>
