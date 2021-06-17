@@ -19,7 +19,7 @@ const PostList = () => {
             <>
             <Post key={post.id} post={post} />
             <Link to={`/posts/${post.id}`}>Post Details</Link>
-          </>
+            </>
           ))}
           
         </div>
