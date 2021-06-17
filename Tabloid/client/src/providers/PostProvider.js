@@ -70,8 +70,9 @@ export const PostProvider = (props) => {
   }
 
   const updatePost = (post) => {
+    console.log(post);
     return getToken().then((token) =>
-      fetch(`api/post/${post.id}`, {
+      fetch(`/api/post/${post.Id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -95,15 +95,15 @@ const PostForm = () => {
         if (postId){
           //PUT - update
           updatePost({
-              Id: post.Id,
-              Title: post.Title,
-              Content: post.Content,
-              CreateDateTime: post.CreateDateTime,
-              IsApproved: post.IsApproved,
-              PublishDateTime: post.PublishDateTime,
-              PmageLocation: post.ImageLocation,
-              CategoryId: parseInt(post.CategoryId),
-              UserProfileId: parseInt(post.UserProfileId)
+              Id: post.id,
+              Title: post.title,
+              Content: post.content,
+              CreateDateTime: post.createDateTime,
+              IsApproved: post.isApproved,
+              PublishDateTime: post.publishDateTime,
+              ImageLocation: post.imageLocation,
+              CategoryId: parseInt(post.categoryId),
+              UserProfileId: parseInt(post.userProfileId)
           })
           //pushes a new entry onto the history stack
           .then(() => history.push(`/posts/${post.id}`))
