@@ -127,6 +127,13 @@ const PostForm = () => {
             <Card className="col-sm-12 col-lg-6">
               <CardBody>
                 <Form>
+                  {/* <FormGroup>
+                    <Label for="imageUrl">Gif URL</Label>
+                    <Input
+                      id="imageUrl"
+                      onChange={(e) => setImageUrl(e.target.value)}
+                    />
+                  </FormGroup> */}
                   <FormGroup>
                     <Label for="title">Title</Label>
                     <Input id="title" name="Title" onChange={handleControlledInputChange} defaultValue={post.title}/>

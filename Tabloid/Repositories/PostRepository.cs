@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
 using Tabloid.Controllers;
 using Tabloid.Models;
 using Tabloid.Utils;

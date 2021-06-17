@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 namespace Tabloid.Controllers
 {
-   
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PostController : ControllerBase
@@ -73,7 +73,10 @@ namespace Tabloid.Controllers
             return int.Parse(id);
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
         [HttpPost]
         public IActionResult Post(Post post)
         {
