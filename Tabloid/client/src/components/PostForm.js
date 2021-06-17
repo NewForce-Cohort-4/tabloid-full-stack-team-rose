@@ -127,42 +127,22 @@ const PostForm = () => {
             <Card className="col-sm-12 col-lg-6">
               <CardBody>
                 <Form>
-                  {/* <FormGroup>
-                    <Label for="userId">User Id (For Now...)</Label>
-                    <Input
-                      id="userId"
-                      onChange={(e) => setUserProfileId(e.target.value)}
-                    />
-                  </FormGroup> */}
-                  {/* <FormGroup>
-                    <Label for="imageUrl">Gif URL</Label>
-                    <Input
-                      id="imageUrl"
-                      onChange={(e) => setImageUrl(e.target.value)}
-                    />
-                  </FormGroup> */}
                   <FormGroup>
                     <Label for="title">Title</Label>
                     <Input id="title" name="Title" onChange={handleControlledInputChange} defaultValue={post.title}/>
                   </FormGroup>
                   <FormGroup>
                     <Label for="content">Content</Label>
-                    <Input
-                      id="content" name="Content"
-                      onChange={handleControlledInputChange}
-                      defaultValue={post.content}
-                    />
+                    <Input id="content" name="Content" onChange={handleControlledInputChange} defaultValue={post.content}/>
                   </FormGroup>
                   <FormGroup>
                     <Label for="categoryId">Category</Label>
-                    <select value={post.categoryId} name="categoryId" onChange={handleControlledInputChange}
-                  >
-                   
-                    <option value="0">Select a Category</option>
-                    {category.map(c => (
-                    <option key={c.id} value={c.id}>
-                    {c.name}
-                    </option>))}
+                    <select value={post.categoryId} name="categoryId" onChange={handleControlledInputChange}>
+                      <option value="0">Select a Category</option>
+                      {category.map(c => (
+                      <option key={c.id} value={c.id}>
+                      {c.name}
+                      </option>))}
                     </select>
                   </FormGroup>
                 </Form>
@@ -173,9 +153,6 @@ const PostForm = () => {
                     handleSavePost()
                   }}>
                 {postId ? <>Save Post</> : <>Add Post</>}</button>
-                {/* <Button color="info" disabled={isLoading} onClick={submit}>
-                  SUBMIT
-                </Button> */}
               </CardBody>
             </Card>
           </div>

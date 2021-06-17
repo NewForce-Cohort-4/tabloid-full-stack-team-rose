@@ -70,6 +70,7 @@ export const PostProvider = (props) => {
   }
 
   const updatePost = (post) => {
+    console.log(post)
     return getToken().then((token) =>
       fetch(`api/post/${post.id}`, {
         method: "PUT",
