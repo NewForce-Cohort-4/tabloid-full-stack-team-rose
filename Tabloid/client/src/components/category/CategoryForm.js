@@ -30,7 +30,8 @@ const CategoryForm = () => {
           const submit = (e) => {
           setIsLoading(true);
           if (categoryid){
-            //PUT - update          
+            //PUT - update 
+            debugger         
             updateCategory({
                 id: editCategory.id,
                 name: name

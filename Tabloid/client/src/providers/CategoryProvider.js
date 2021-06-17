@@ -52,14 +52,16 @@ export const CategoryProvider = (props) => {
     }
 
     const updateCategory = (category) => {
+      debugger
       return getToken().then((token) =>
       fetch(`/api/category/${category.id}`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(category)
-      }))
+      }).then((res) => res.json()))
     }
         
           return (
