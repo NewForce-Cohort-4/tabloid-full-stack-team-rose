@@ -153,6 +153,7 @@ const PostForm = () => {
                     handleSavePost()
                   }}>
                 {postId ? <>Save Post</> : <>Add Post</>}</button>
+                <button onClick={()=>{history.push(`/posts/${postId}`)}}>Cancel</button>
               </CardBody>
             </Card>
           </div>
